@@ -3,31 +3,26 @@ import React from 'react';
  
 function App() {
 
-   const [comentario, setComentario] = React.useState([]);
-   const [input, setInput] = React.useState('');
-   const inputElement = React.useRef();
- 
-   function handleClick(){
-
-    setComentario([...comentario, input]);
-    setInput('');
-
-    inputElement.current.focus();
-
-   }
+  const [carrinho, setCarrinho] = React.useState(0);
+  const [notificacao, setNotificacao] = React.useState(null);
+  const TimeoutRef = React.useRef();
    
+  function handleClick(){
+    setNotificacao('item adicionado ao carrinho');
+    setCarrinho(carrinho  + 1);
 
+    clearTimeout(TimeoutRef.current);
+
+   TimeoutRef.current = setTimeout(()=>{
+      setNotificacao(null);
+    },2000)
+  }
 
   return (
     
     <div>
-      <ul>
-        {comentario.map(comentario => <li key={comentario}>{comentario}</li>) }
-   
-      </ul>
-      <input type="text" ref={inputElement} value={input} onChange={({target})=> setInput(target.value)}/>
-
-      <button onClick={handleClick}>Enviar</button>
+     <p>{notificacao}</p> 
+    <button onClick={handleClick}>Adicionar Carrinho {carrinho}</button>
     </div>
   );
 }
